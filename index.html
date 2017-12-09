@@ -13,13 +13,13 @@
         text-align: center;
         background-color: lightblue;
     }
-    .width1 {
-        width: 30%;
-    }
-    .width2 {
-        width: 50%;
-    }
     @media screen and (min-width: 501px){
+        .width1 {
+            width: 30%;
+        }
+        .width2 {
+            width: 50%;
+        }
         .container2 {
             padding-left: 100px;
             padding-right: 100px;
@@ -27,6 +27,12 @@
     }
     @media screen and (max-width: 500px)
     {
+        .width1 {
+            width: 100%;
+        }
+        .width2 {
+            width: 50%;
+        }
         .container2 {
             padding-left: 30px;
             padding-right: 30px;
@@ -49,13 +55,17 @@
           //     var result1 = quantity1 * price1;
           //     $("#value1").replaceWith(result1);
           // });
-          $("#afQuantity").on("change", function(){
-              quantity1 = this.value;
-              alert(quantity1);
-          });
+          // $("#afQuantity").on("change", function(){
+          //     quantity1 = this.value;
+          //     // alert(quantity1);
+          // });
+          // $("#afPrice").on("change", function(){
+          //     price1 = this.value;
+          //     // alert(price1);
+          // });
           $(".event1").click(function(){
               // alert("test"+quantity1);
-              // quantity1 = afQuantity.value;
+              quantity1 = afQuantity.value;
               price1 = afUPrice.value;
               result1 = quantity1 * price1;
               $("#value1").replaceWith('<p id="value1">' + result1 + '</p>');
