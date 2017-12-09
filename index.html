@@ -41,13 +41,24 @@
       $(function() {
           var quantity1;
           var price1;
+          var result;
 
+          // $(".event1").click(function(){
+          //     quantity1 = afQuantity.value;
+          //     price1 = afUPrice.value;
+          //     var result1 = quantity1 * price1;
+          //     $("#value1").replaceWith(result1);
+          // });
+          $("#afQuantity").on("change", function(){
+              quantity1 = this.value;
+              alert(quantity1);
+          });
           $(".event1").click(function(){
-              var quantity1 = afQuantity.value;
-              var price1 = afUPrice.value;
-              var result1 = quantity1 * price1;
-              alert("testing");
-              $("#value1").replaceWith(result1);
+              // alert("test"+quantity1);
+              // quantity1 = afQuantity.value;
+              price1 = afUPrice.value;
+              result1 = quantity1 * price1;
+              $("#value1").replaceWith('<p id="value1">' + result1 + '</p>');
           });
       });
   </script>
