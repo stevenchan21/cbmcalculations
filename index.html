@@ -13,6 +13,13 @@
         text-align: center;
         background-color: lightblue;
     }
+    .emptySpace {
+        margin-bottom: 20px;
+    }
+    .btn {
+        background-color: #337ab7;
+        color: white;
+    }
     @media screen and (min-width: 501px){
         .width1 {
             width: 30%;
@@ -47,7 +54,28 @@
       $(function() {
           var quantity1;
           var price1;
+          var exChange;
           var result;
+          var intRegex = /^\d+$/;
+          var floatRegex = /^((\d+(\.\d *)?)|((\d*\.)?\d+))$/;
+
+          //Variables for Sea Shipping
+          var hei;
+          var len;
+          var wid;
+          var quantity2;
+          var scost;
+          var numOfUnits;
+          var price2;
+          var exChange2;
+          var localC;
+
+          //Variables for CBM tab
+          var hei2;
+          var len2;
+          var wid2;
+          var quantity3;
+          var numOfUnits2;
 
           // $(".event1").click(function(){
           //     quantity1 = afQuantity.value;
@@ -63,12 +91,106 @@
           //     price1 = this.value;
           //     // alert(price1);
           // });
+          // Script for Air Freight
           $(".event1").click(function(){
               // alert("test"+quantity1);
+              var str1 = $('#afQuantity').val();
+              var str2 = $('#afUPrice').val();
+              var str3 = $('#afEx').val();
+              if((intRegex.test(str1) || floatRegex.test(str1)) && (intRegex.test(str2) || floatRegex.test(str2)) && (intRegex.test(str3) || floatRegex.test(str3))){
+              }
+              else {
+                    alert("Please enter numbers or decimals only");
+                    return false;
+              }
+
+
               quantity1 = afQuantity.value;
               price1 = afUPrice.value;
-              result1 = quantity1 * price1;
+              exChange = afEx.value;
+              result1 = (quantity1 * price1 * exChange)/quantity1;
+              result1 = Math.ceil(result1 * 100)/100
               $("#value1").replaceWith('<p id="value1">' + result1 + '</p>');
+
+          });
+          $(".event2").on("click", function(event) {
+             $("#afQuantity").val("");
+             $("#afUPrice").val("");
+             $("#afEx").val("");
+          });
+
+
+
+          $(".event3").click(function(){
+             len = cbmLength.value;
+             wid = cbmWidth.value;
+             hei = cbmHeight.value;
+             quantity2 = ssQuantity.value;
+             scost = shipCost.value;
+             numOfUnits = numOfUPerCa.value;
+             price2 = ssUPrice.value;
+             exChange2 = ssEx.value;
+             localC = localC.value;
+              if((intRegex.test(len) || floatRegex.test(len)) && (intRegex.test(wid) || floatRegex.test(wid)) && (intRegex.test(hei) || floatRegex.test(hei))
+              && (intRegex.test(quantity2) || floatRegex.test(quantity2)) && (intRegex.test(scost) || floatRegex.test(scost)) && (intRegex.test(numOfUnits) || floatRegex.test(numOfUnits))
+              && (intRegex.test(price2) || floatRegex.test(price2)) && (intRegex.test(exChange2) || floatRegex.test(exChange2))) {
+                  var result2 = ((len/100) * (wid/100) * (hei/100)) * (quantity2 / numOfUnits)
+                  var originalR = Math.ceil(result2 * 100) / 100;
+                  result2 = Math.ceil(originalR);
+                  $("#value2").replaceWith('<p id="value2">' + originalR + ", and the rounded up value is " + result2 + '</p>');
+
+                  var result3 = result2 * scost;
+                  $("#value3").replaceWith('<p id="value3">' + result3 + '</p>');
+
+                  var result4 = ((quantity2 * price2 * exChange2) + result3 + localC)/quantity2;
+                  result4 = Math.ceil(result4 * 100)/100;
+                  $("#value4").replaceWith('<p id="value4">' + result4 + '</p>');
+              }
+              else {
+                    alert("Please enter numbers or decimals only");
+                    //alert(len + " " + wid + " " + hei + " " + quantity2 + " " + scost + " " + numOfUnits + " " + price2 + " " + exChange2)
+                    return false;
+              }
+          });
+          $(".event4").on("click", function(event) {
+             $("#ssQuantity").val("");
+             $("#ssUPrice").val("");
+             $("#ssEx").val("");
+             $("#cbmWidth").val("");
+             $("#cbmLength").val("");
+             $("#cbmHeight").val("");
+             $("#shipCost").val("");
+             $("#numOfUPerCa").val("");
+             $("#localC").val("0");
+          });
+
+
+          //Calculation for cbm only
+          $(".event5").click(function(){
+              len2 = cbmLength2.value;
+              wid2 = cbmWidth2.value;
+              hei2 = cbmHeight2.value;
+              quantity3 = cbmQuantity.value;
+              numOfUnits2 = numOfUPerCa2.value;
+              if((intRegex.test(len2) || floatRegex.test(len2)) && (intRegex.test(wid2) || floatRegex.test(wid2)) && (intRegex.test(hei2) || floatRegex.test(hei2))
+              && (intRegex.test(quantity3) || floatRegex.test(quantity3)) && (intRegex.test(numOfUnits2) || floatRegex.test(numOfUnits2))){
+                  var resultcbm = ((len2/100) * (wid2/100) * (hei2/100)) * (quantity3 / numOfUnits2)
+                  var originalR1 = Math.ceil(resultcbm * 100) / 100;
+                  resultcbm = Math.ceil(originalR1);
+                  $("#value5").replaceWith('<p id="value5">' + originalR1 + ", and the rounded up value is " + resultcbm + '</p>');
+              }
+              else {
+                    alert("Please enter numbers or decimals only");
+                    //alert(len + " " + wid + " " + hei + " " + quantity2 + " " + scost + " " + numOfUnits + " " + price2 + " " + exChange2)
+                    return false;
+              }
+          });
+          $(".event6").on("click", function(event) {
+             $("#cbmQuantity").val("");
+             $("#cbmWidth2").val("");
+             $("#cbmLength2").val("");
+             $("#cbmHeight2").val("");
+             $("#numOfUPerCa2").val("");
           });
       });
   </script>
@@ -78,18 +200,20 @@
               <div class="jumbotron textAlignment1">
                   <h1>Hello, world!</h1>
                   <p>...</p>
-                  <p><a class="btn btn-primary btn-lg" href="#Air Freight" role="button">Go to Calculations</a></p>
+                  <p><a class="btn btn-primary btn-lg" href="#AirFreight" role="button">Go to Calculations</a></p>
               </div>
       </div><!--Container1-->
       <div class="container2">
           <ul class="nav nav-tabs">
               <li role="presentation" class="active"><a data-toggle="tab" href="#AirFreight">Air Freight</a></li>
-              <li role="presentation"><a data-toggle="tab" href="#Shipping">Shipping</a></li>
+              <li role="presentation"><a data-toggle="tab" href="#Shipping">Sea Shipping</a></li>
+              <li role="presentation"><a data-toggle="tab" href="#CalCBM">Calculate CBM only</a></li>
           </ul>
           <div class="tab-content">
+              <!-- For Air Freight Tab -->
               <div id="AirFreight" class="tab-pane fade in active">
-                  <h3>HOME</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <h3>Calculation for Air Freight</h3>
+                  <p>Please enter the value in numbers or decimal.</p>
                   <div class="input-group width1">
                       <span class="input-group-addon" id="basic-addon1">Quantity</span>
                       <input id="afQuantity" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
@@ -100,16 +224,111 @@
                       <input id="afUPrice" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
                   </div>
                   </br>
-                  <h4>Cost Price is:</h4><p id="value1">0</p>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Exchange Rate</span>
+                      <input id="afEx" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
                   </br>
-                  <button class="event1">Calculate</button>
+                  <h4>Unit Cost Price is:</h4><p id="value1">0</p>
+                  </br>
+                  <!-- <button class="event1">Calculate</button> -->
+                  <button type="button" class="btn btn-default event1">Calculate</button>
+                  <button type="button" class="btn btn-default event2">Clear</button>
               </div>
-
+              <!-- For Sea Tab -->
               <div id="Shipping" class="tab-pane fade">
-                  <h3>Menu 1</h3>
-                  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <h3>Calculation for Sea Shipping</h3>
+                  <p>Please enter the value in numbers or decimal.</p>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Length in cm</span>
+                      <input id="cbmLength" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Width in cm</span>
+                      <input id="cbmWidth" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Height in cm</span>
+                      <input id="cbmHeight" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Shipping cost</span>
+                      <input id="shipCost" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Quantity</span>
+                      <input id="ssQuantity" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Number of units per Carton</span>
+                      <input id="numOfUPerCa" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Unit Price</span>
+                      <input id="ssUPrice" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">local Logistic Cost</span>
+                      <input id="localC" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1" value="0">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Exchange Rate</span>
+                      <input id="ssEx" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <h4>The number of CBM required is:</h4><p id="value2">0</p>
+                  </br>
+                  <h4>The shipping cost is:</h4><p id="value3">0</p>
+                  </br>
+                  <h4>Unit Cost Price is:</h4><p id="value4">0</p>
+                  </br>
+                  <button type="button" class="btn btn-default event3">Calculate</button>
+                  <button type="button" class="btn btn-default event4">Clear</button>
+              </div>
+                  <!-- For CBM Tab -->
+              <div id="CalCBM" class="tab-pane fade">
+                  <h3>Calculation for Sea Shipping</h3>
+                  <p>Please enter the value in numbers or decimal.</p>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Length in cm</span>
+                      <input id="cbmLength2" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Width in cm</span>
+                      <input id="cbmWidth2" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Height in cm</span>
+                      <input id="cbmHeight2" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Quantity</span>
+                      <input id="cbmQuantity" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <div class="input-group width1">
+                      <span class="input-group-addon" id="basic-addon1">Number of units per Carton</span>
+                      <input id="numOfUPerCa2" type="text" class="form-control  width2" placeholder="Value in Numbers" aria-describedby="basic-addon1">
+                  </div>
+                  </br>
+                  <h4>The number of CBM required is:</h4><p id="value5">0</p>
+                  </br>
+                  <button type="button" class="btn btn-default event5">Calculate</button>
+                  <button type="button" class="btn btn-default event6">Clear</button>
               </div>
           </div>
+          <div class="emptySpace"></div>
       </div><!--container2-->
   </body>
   </html>
